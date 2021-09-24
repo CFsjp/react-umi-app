@@ -1,0 +1,46 @@
+.layout-wrap {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+
+.site-layout {
+  flex: 1;
+  background: #f5f5f7;
+}
+.site-layout-header {
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 48px;
+  background: #fff;
+  box-shadow: 0px 0px 0px 0px transparent, /*上边阴影 */ 
+              0px 0px 0px 0px transparent,/*左边阴影 */ 
+              0px 10px 0px 0px transparent, /*右边阴影 */
+              2px 1px 3px 0px #e2e2e2; /*下边阴影 */
+
+  .avatar {
+    margin-right: 24px;
+    background: linear-gradient(141deg, #1c5bf0 0%, #1b44eb 100%);
+    cursor: pointer;
+  }
+}
+
+.content {
+  padding: 24px 24px 24px 24px;
+  overflow: auto;
+  background: #f5f5f7;
+  border-radius: 4px;
+}
+
+.content-router {
+  margin: 16px 0;
+}
+
+.ant-result-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
