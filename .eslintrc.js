@@ -2,11 +2,8 @@ module.exports = {
   extends: [require.resolve('@umijs/fabric/dist/eslint')],
   plugins: ['react'],
   rules: {
-    'import/order': [
-      'error',
-      { 'newlines-between': 'never', alphabetize: { order: 'asc' } }
-    ],
-    'import/newline-after-import': ['error', { count: 2 }],
+    'import/order': ['off'],
+    'import/newline-after-import': ['off'],
     'space-before-function-paren': ['error', 'never'],
     'space-before-blocks': ['error', 'always'],
     'space-infix-ops': ['error'],
