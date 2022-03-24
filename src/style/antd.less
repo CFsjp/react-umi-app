@@ -1,0 +1,375 @@
+// antd的样式修改全部放这里
+
+.ant-layout-sider,
+.ant-table-wrapper,
+.ant-spin-nested-loading,
+.ant-spin-container {
+  height: 100%;
+}
+
+.ant-layout-sider {
+  overflow: hidden;
+}
+
+.com-antd-style {
+  .ant-table {
+    min-height: 100%;
+    .ant-empty-normal {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+.com-user-table {
+  .ant-table {
+    min-height: calc(100vh - 350px);
+    .ant-empty-normal {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+.com-process-table {
+  .ant-table {
+    min-height: calc(100vh - 250px);
+    .ant-empty-normal {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+.com-plan-table {
+  .ant-table {
+    min-height: calc(100vh - 250px);
+    .ant-empty-normal {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+.ant-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin: 0 !important;
+}
+
+.ant-spin-container {
+  display: flex;
+  flex-direction: column;
+}
+.ant-table {
+  flex: 1;
+  overflow: hidden;
+  .ant-table-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .ant-table-body {
+      flex: 1;
+
+      table {
+        max-height: 100%;
+      }
+    }
+  }
+}
+.ant-table-thead > tr > th {
+  color: #333333 !important;
+  font-weight: 700;
+  background: #f7f8fa !important;
+}
+.ant-table-cell {
+  color: #666666;
+  font-size: 14px;
+  font-family: 'PingFangSC-Regular', 'PingFang SC';
+}
+.ant-table-cell::before {
+  display: none;
+}
+.ant-table-header {
+  height: 56px;
+  background: #f7f8fa;
+}
+
+/* 计划日历开始 */
+.ant-picker-calendar {
+  background: 0 0 !important;
+}
+.ant-picker-content thead tr th {
+  height: 45px !important;
+  padding: 0 !important;
+  line-height: 45px;
+  text-align: center;
+}
+.ant-picker-calendar-date-value {
+  margin: 12px 20px 8px;
+  font-weight: 400;
+  font-size: 14px;
+  font-family: 'PingFangSC-Regular', 'PingFang SC';
+}
+.ant-picker-calendar-full {
+  .ant-picker-panel {
+    .ant-picker-calendar-date-content {
+      overflow-y: hidden !important;
+    }
+    .ant-picker-calendar-date-content:hover {
+      overflow-y: auto !important;
+    }
+  }
+}
+/* 日期是今天的样式 */
+.ant-picker-calendar-date-today {
+  background: #ffffff !important;
+}
+.ant-picker-calendar-date-today:hover {
+  background: #f5f5f5 !important;
+}
+.ant-picker-calendar-date-today .ant-picker-calendar-date-value {
+  position: relative;
+  color: #ffffff !important;
+}
+.ant-picker-calendar-date-today .ant-picker-calendar-date-value::before {
+  position: absolute;
+  right: -4px;
+  z-index: -1;
+  width: 24px;
+  height: 24px;
+  color: #ffffff !important;
+  text-align: center;
+  background: #1b44eb;
+  border-radius: 50%;
+  content: '';
+}
+
+.ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date {
+  width: auto;
+  height: auto;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid #f0f0f0 !important;
+}
+.ant-picker-date-panel .ant-picker-body {
+  padding: 0 !important;
+}
+
+.ant-table-pagination.ant-pagination {
+  margin-top: 20px !important;
+  margin-bottom: 0 !important;
+}
+
+.com-tree-style {
+  .ant-tree-switcher {
+    line-height: 44px;
+  }
+  .ant-tree-title {
+    line-height: 44px;
+  }
+}
+
+.com-descriptions-style {
+  padding: 24px 24px 8px;
+  background-color: #fff;
+
+  .ant-descriptions-title {
+    color: #333333;
+    font-weight: 700;
+    font-size: 16px;
+    font-family: 'PingFangSC-Medium, PingFang SC';
+    line-height: 22px;
+  }
+}
+
+.column-descriptions-item {
+  .ant-descriptions-item-container {
+    display: flex;
+    flex-direction: column;
+    color: #222933;
+    font-weight: 400;
+    font-size: 14px;
+    font-family: 'PingFangSC-Regular, PingFang SC';
+    line-height: 20px;
+
+    .ant-descriptions-item-label {
+      color: #7f8590;
+    }
+
+    .ant-descriptions-item-content {
+      color: #222933;
+    }
+  }
+}
+
+.ant-layout-sider-trigger {
+  position: relative;
+  color: #222933;
+  background: #00000005;
+}
+
+.ant-menu-inline.ant-menu-root .ant-menu-item > .ant-menu-title-content,
+.ant-menu-inline.ant-menu-root
+  .ant-menu-submenu-title
+  > .ant-menu-title-content {
+  flex: auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ant-menu-inline.ant-menu-root .ant-menu-item > *,
+.ant-menu-inline.ant-menu-root .ant-menu-submenu-title > * {
+  flex: none;
+}
+.ant-menu-title-content {
+  transition: color 0.3s;
+}
+.ant-layout,
+.ant-layout * {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+.ant-menu-vertical > .ant-menu-item,
+.ant-menu-vertical-left > .ant-menu-item,
+.ant-menu-vertical-right > .ant-menu-item,
+.ant-menu-inline > .ant-menu-item,
+.ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title,
+.ant-menu-vertical-left > .ant-menu-submenu > .ant-menu-submenu-title,
+.ant-menu-vertical-right > .ant-menu-submenu > .ant-menu-submenu-title,
+.ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
+  height: 44px;
+  line-height: 44px;
+}
+.ant-menu-vertical .ant-menu-item,
+.ant-menu-vertical-left .ant-menu-item,
+.ant-menu-vertical-right .ant-menu-item,
+.ant-menu-inline .ant-menu-item,
+.ant-menu-vertical .ant-menu-submenu-title,
+.ant-menu-vertical-left .ant-menu-submenu-title,
+.ant-menu-vertical-right .ant-menu-submenu-title,
+.ant-menu-inline .ant-menu-submenu-title {
+  height: 44px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding: 0 16px;
+  overflow: hidden;
+  line-height: 44px;
+  text-overflow: ellipsis;
+}
+.ant-menu-item,
+.ant-menu-submenu-title {
+  position: relative;
+  display: block;
+  margin: 0;
+  padding: 0 20px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s,
+    padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.ant-menu-dark {
+  & > .ant-menu-item {
+    font-weight: 700;
+    font-family: 'PingFangSC-Medium, PingFang SC';
+  }
+
+  & > .ant-menu-submenu {
+    font-weight: 700;
+    font-family: 'PingFangSC-Medium, PingFang SC';
+  }
+
+  & > .ant-menu-submenu .ant-menu-item {
+    font-weight: 400;
+    font-size: 14px;
+
+    .ant-menu-title-content {
+      padding-left: 8px;
+    }
+  }
+
+  .ant-menu-inline.ant-menu-sub {
+    background: unset;
+  }
+}
+
+.ant-menu-dark .ant-menu-submenu-active,
+.ant-menu-dark .ant-menu-submenu-open,
+.ant-menu-dark .ant-menu-submenu-selected {
+  color: #222933 !important;
+  font-family: 'PingFangSC-Regular, PingFang SC';
+}
+
+.ant-select-selection-item-content {
+  color: #525a66;
+}
+
+.ant-menu-submenu-title > .ant-menu-submenu-arrow::before,
+.ant-menu-submenu-title > .ant-menu-submenu-arrow::after {
+  background: #222933 !important;
+}
+
+.ant-tree {
+  .ant-tree-treenode {
+    width: 100%;
+  }
+  .ant-tree-node-content-wrapper {
+    display: inline-block;
+    width: calc(100% - 24px);
+  }
+}
+
+.ant-layout-sider-children {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ant-avatar-string {
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 12px;
+  font-family: 'PingFangSC-Regular, PingFang SC';
+}
+
+.ant-tree-list-scrollbar-thumb {
+  width: 4px !important;
+}
+.ant-tree-list-scrollbar {
+  width: 4px !important;
+}
+
+.nodata100 {
+  table {
+    height: 100%;
+  }
+}
+
+.authCheckbox {
+  .ant-checkbox-wrapper {
+    height: 32px;
+    line-height: 32px;
+  }
+}
+.ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
+  background-color: #f2f4fc !important;
+}
