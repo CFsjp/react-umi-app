@@ -32,6 +32,7 @@
     "cz-customizable": "^6.3.0",
     "echarts": "^5.1.2",
     "eslint": "^7.32.0",
+    "git-revision-webpack-plugin": "^5.0.0",
     "husky": "^6.0.0",
     "moment": "^2.29.1",
     "react-countup": "^5.2.0",
