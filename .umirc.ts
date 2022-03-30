@@ -12,7 +12,7 @@ const { GitRevisionPlugin } = require('git-revision-webpack-plugin')
 const gitRevisionPlugin = new GitRevisionPlugin()
 
 export default defineConfig({
-  title: 'RPA',
+  title: 'demo',
   hash: true, //生成hash文件名
   favicon: '/favicon.png',
   history: {
