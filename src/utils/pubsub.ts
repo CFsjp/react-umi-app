@@ -4,18 +4,27 @@
  *         Pubsub.pub('messageTopic', 'text1', 'text2', ....'text3')
  */
 
-export const Pubsub = {
+interface PubsubModel {
+  topicMap: {
+    [key: string]: Function[]
+  }
+  sub(topic: string, fn: () => {}): void
+  pub(topic: string, ...args: any[]): void
+  unsub(topic: string, fn: () => {}): void
+}
+
+export const Pubsub: PubsubModel = {
   topicMap: {},
-  sub(topic: string, fn: () => {}): () => void {
+  sub(topic: string, fn: () => {}) {
     const entry = this.topicMap[topic] || (this.topicMap[topic] = [])
 
     entry.push(fn)
   },
-  pub(topic: string, ...args: any[]): void {
+  pub(topic: string, ...args: any[]) {
     const entry = this.topicMap[topic]
     if (!entry) return
 
-    entry.forEach((handler) => handler(...args))
+    entry.forEach((handler: Function) => handler(...args))
   },
   unsub(topic: string, fn: () => {}) {
     const entry = this.topicMap[topic]
@@ -24,7 +33,10 @@ export const Pubsub = {
   }
 }
 
+type EventModel = PubsubModel['topicMap']
+
 class PubSub {
+  events: EventModel
   constructor() {
     // 维护事件及订阅行为
     this.events = {}
@@ -34,7 +46,7 @@ class PubSub {
    * @param {String} type 事件类型
    * @param {Function} cb 回调函数
    */
-  subscribe(type, cb) {
+  subscribe(type: string, cb: Function) {
     if (!this.events[type]) {
       this.events[type] = []
     }
@@ -45,7 +57,7 @@ class PubSub {
    * @param {String} type 事件类型
    * @param  {...any} args 参数列表
    */
-  publish(type, ...args) {
+  publish(type: string, ...args: any[]) {
     if (this.events[type]) {
       this.events[type].forEach((cb) => {
         cb(...args)
@@ -57,7 +69,7 @@ class PubSub {
    * @param {String} type 事件类型
    * @param {Function} cb 回调函数
    */
-  unsubscribe(type, cb) {
+  unsubscribe(type: string, cb: Function) {
     if (this.events[type]) {
       const targetIndex = this.events[type].findIndex((item) => item === cb)
       if (targetIndex !== -1) {
@@ -72,7 +84,7 @@ class PubSub {
    * 移除某个事件的所有订阅行为
    * @param {String} type 事件类型
    */
-  unsubscribeAll(type) {
+  unsubscribeAll(type: string) {
     if (this.events[type]) {
       delete this.events[type]
     }

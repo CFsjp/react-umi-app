@@ -1,8 +1,12 @@
+interface CookieMap {
+  [key: string]: string
+}
+
 export const cookies = {
   get: (cname: string): string => {
     const cookiestr = document.cookie
     const cookieList = cookiestr.split('; ')
-    const cookieMap = {}
+    const cookieMap: CookieMap = {}
 
     cookieList.forEach((cookie) => {
       const [cookieKey, cookieVal] = cookie.split('=')

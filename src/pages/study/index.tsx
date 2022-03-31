@@ -8,6 +8,19 @@ import { MouseEvent, useCallback, useState } from 'react'
 import { Button, Modal } from 'antd'
 import style from './index.less'
 
+// type Profile<T> = {
+//   username: string;
+//   nickName: string;
+//   avatar: string;
+//   age: T;
+// }
+
+// function getTutureTutorialsInfo<T, U extends Profile<string>>(info: T[], profile: U): T[] {
+//   console.log(info.length);
+//   console.log(profile.username);
+//   return info;
+// }
+
 function Study() {
   const [modelVisible, setModelVisible] = useState(false)
   
