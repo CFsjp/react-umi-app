@@ -3,6 +3,10 @@ import { Button } from 'antd'
 import Son from './son'
 
 
+/**
+ * @function ReactHookStudy
+ * @description 用来学习react hook的组件示例
+ */
 function ReactHookStudy() {
   const [count, setCount] = useState(0)
   const [name, setName] = useState('乘风')
