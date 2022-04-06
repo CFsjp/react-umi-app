@@ -1,4 +1,4 @@
-# RPA
+# REACT-UMI-APP
 
 [TOC]
 
@@ -13,7 +13,7 @@ React 集成开发环境。
 ## 目录结构说明
 
 ```
-RPA
+Demo
   - config - 公共配置文件
   - .husky - git commit 提交校验
   - mock - mock数据
@@ -27,12 +27,6 @@ RPA
     - layouts - 公共页面
     - model - 状态管理库
     - pages - 页面代码目录
-      - creator - creator页面
-      - overview - 总览页面
-      - plan - 计划模块
-      - procedure - 流程模块
-      - task - 任务模块
-      - user - 用户模块
     - styles - 全局的样式配置
     - utils - 工具函数存放目录
 ```
@@ -72,6 +66,7 @@ RPA
 - 坚持使用小写驼峰来命名属性与方法。
 - 坚持将自定义的模块导入与第三方的模块导入中间空一行。
 - 坚持在非头部的注释上面增加一行空行。
+- 添加了jsdoc校验，每个函数必须写入描述中文，便于后续维护
 
 ##### CSS
 
@@ -102,6 +97,8 @@ RPA
   - `revert` 回滚
   - `docs` 编写文档
   - `test` 测试类
+
+  - 上述已经全部集成，使用 `yarn commit` 即可
 
 ## 开始
 
