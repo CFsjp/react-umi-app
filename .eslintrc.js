@@ -47,7 +47,7 @@ module.exports = {
     // 不允许出现未定义的参数类型，例如{strrrrr}
     "jsdoc/no-undefined-types": 1, // Recommended
     // 要求所有函数都要有描述
-    "jsdoc/require-description": ["warn", {"descriptionStyle":"any"}],
+    "jsdoc/require-description": ["error", {"descriptionStyle":"any"}],
     "jsdoc/require-returns": 0,
     // 验证类型的有效性
     "jsdoc/valid-types": 1 // Recommended
