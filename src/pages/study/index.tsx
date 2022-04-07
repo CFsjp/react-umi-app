@@ -1,27 +1,23 @@
-/**
- * @description 学习ts使用页面
- * @author chengfeng
- * @since 2022/03/30
- */
 
-import { MouseEvent, useCallback, useState } from 'react'
+
+import { MouseEvent, ReactNode, useCallback, useState } from 'react'
 import { Button, Modal } from 'antd'
 import style from './index.less'
 
-// type Profile<T> = {
-//   username: string;
-//   nickName: string;
-//   avatar: string;
-//   age: T;
-// }
 
-// function getTutureTutorialsInfo<T, U extends Profile<string>>(info: T[], profile: U): T[] {
-//   console.log(info.length);
-//   console.log(profile.username);
-//   return info;
-// }
+interface InitProps {
+  [key: string]: any
+}
 
-function Study() {
+/**
+ * @param props {}
+ * @description 学习ts使用页面
+ * @author chengfeng
+ * @since 2022/03/30
+ * @version 1.0.0
+ */
+function Study(props: InitProps): ReactNode {
+  const {} = props
   const [modelVisible, setModelVisible] = useState(false)
   
   const handleClick = useCallback((e: MouseEvent) => {

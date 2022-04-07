@@ -50,7 +50,9 @@ module.exports = {
     "jsdoc/require-description": ["error", {"descriptionStyle":"any"}],
     "jsdoc/require-returns": 0,
     // 验证类型的有效性
-    "jsdoc/valid-types": 1 // Recommended
+    "jsdoc/valid-types": 1, // Recommended
+    "jsdoc/require-param-type": ["error"|"warn", {"contexts":["any"]}],
+    "jsdoc/check-values": 0
   },
   parserOptions: {
     ecmaVersion: 7,
