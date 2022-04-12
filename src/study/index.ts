@@ -343,3 +343,380 @@ const responder: RequireAtLeastOne<Responder, 'text' | 'json'> = {
   secure: true
 }
 // 这里利用了联合类型作为泛型是 extends 会分发处理的特性，之后将去掉某个属性的类型与只有某个属性，且必填的类型做交叉合并
+
+/**
+ * @description 20、实现一个 RemoveIndexSignature 工具类型，用于移除已有类型中的索引签名
+ */
+
+interface Fooii {
+  [key: string]: any
+  [key: number]: any
+  bar: () => void
+}
+
+type GetKey<V1, V2> = V1 extends V2 ? never : V2
+type RemoveIndexSignature<T> = {
+  [K in keyof T as GetKey<string, K> &
+    GetKey<number, K> &
+    GetKey<symbol, K>]: T[K]
+}
+
+type FooWithOnlyBar = RemoveIndexSignature<Fooii> //{ bar: () => void; }
+// 思路：这里利用的是 [k in as ]的用法。as过的语法可以直接实现对k的判断过滤
+
+/**
+ * @description 21、实现一个 Mutable 工具类型，用于移除对象类型上所有属性或部分属性的 readonly 修饰符。
+ */
+
+type Foooo = {
+  readonly a: number
+  readonly b: string
+  readonly c: boolean
+}
+
+type Mutable<T, Keys extends keyof T = keyof T> = Omit<T, Keys> & {
+  -readonly [K in Keys]: T[K]
+}
+
+const mutableFoo: Mutable<Foooo, 'a'> = { a: 1, b: '2', c: true }
+
+mutableFoo.a = 3 // OK
+// mutableFoo.b = '6'; // Cannot assign to 'b' because it is a read-only property.
+// 知识点 -readonly 可以去除属性上的 readonly属性，语法和 -? 去掉可选属性一直。
+// 之后利用 Omit先构造一个不包含指定属性的类型，之后再基于Keys从已有的T上提取类型
+// 通过 - readonly 去除只读限制，之后通过交叉 & 来合并二者。
+
+/**
+ * @description 22、实现一个 IsUnion 工具类型，判断指定的类型是否为联合类型
+ */
+
+type IsUnion<T, U = T> = T extends any
+  ? [U] extends [T]
+    ? false
+    : true
+  : never
+
+type I000 = IsUnion<string | number> // true
+type I111 = IsUnion<string | never> // false
+type I222 = IsUnion<string | unknown> // false
+
+/**
+ * 知识点:
+ * 联合类型作为泛型的时候 extends 会触发分发执行
+ * 联合类型T 写成 [T] 就变成了普通类型，extends的时候不会分发执行
+ * 这里第一步的 T extends any 肯定为真，这个其实就是利用其分发的特性，
+ * 后面的 [T] 就是一个联合类型拆开后的某一个，因此如果是联合类型的话 [U] extends [T] 一定为否
+ */
+
+/**
+ * @description 23、实现一个 IsNever 工具类型，判断指定的类型是否为 never 类型
+ */
+type I01 = IsNever<never> // true
+type I11 = IsNever<never | string> // false
+type I21 = IsNever<null> // false
+
+type IsNever<T> = [T] extends [never] ? true : false
+
+// 知识点 : never 是一个联合类型，因此要通过 [T] 将其变成普通类型，再去 extends
+
+/**
+ * @description 24、实现一个 Reverse 工具类型，用于对元组类型中元素的位置颠倒，并返回该数组。元组的第一个元素会变成最后一个，最后一个元素变成第一个。
+ */
+
+type Reverse<T extends any[], R extends any[] = []> = T extends [
+  infer First,
+  ...infer Rest
+]
+  ? [...Reverse<Rest>, First]
+  : R
+
+//  type Reverse<T extends Array<any>> = T extends [infer First, ...infer Rest]
+// ? [...Reverse<Rest>, First]
+// : [];
+
+type R0 = Reverse<[]> // []
+type R1 = Reverse<[1, 2, 3]> // [3, 2, 1]
+// 递归就好
+
+/**
+ * @description 25、实现一个 Split 工具类型，根据给定的分隔符（Delimiter）对包含分隔符的字符串进行切割。可用于定义 String.prototype.split 方法的返回值类型。
+ */
+
+type Item = 'semlinker,lolo,kakuqo'
+
+type Split<
+  S extends string,
+  Delimiter extends string
+> = S extends `${infer First}${Delimiter}${infer Rest}`
+  ? [First, ...Split<Rest, Delimiter>]
+  : [S]
+
+type ElementType = Split<Item, ','> // ["semlinker", "lolo", "kakuqo"]
+// 知识点: ts 映射类型里可以使用js里的模板变量的语法，用法和含义都相同
+// 思路: 熟练掌握 extends 配合 infer的用法
+
+/**
+ * @description 26、实现一个 ToPath 工具类型，用于把属性访问（. 或 []）路径转换为元组的形式。
+ */
+
+type ToPath<S extends string> = S extends `${infer A}.${infer B}`
+  ? [...ToPath<A>, ...ToPath<B>]
+  : S extends `${infer A}[${infer B}]`
+  ? [A, B]
+  : [S]
+
+type aaa = ToPath<'foo.bar.baz'> //=> ['foo', 'bar', 'baz']
+type bbb = ToPath<'foo[0].bar.baz'> //=> ['foo', '0', 'bar', 'baz']
+
+/**
+ * @description 27、完善 Chainable 类型的定义，使得 TS 能成功推断出 result 变量的类型。调用 option 方法之后会不断扩展当前对象的类型，使得调用 get 方法后能获取正确的类型
+ */
+
+declare const config: Chainable
+
+type ITypes = string | number | symbol
+
+type Chainable<T = {}> = {
+  option: <K extends ITypes, V>(
+    key: K,
+    value: V
+  ) => Chainable<T & { [P in K]: V }>
+  get: () => MapKey<T>
+}
+
+const result = config
+  .option('age', 7)
+  .option('name', 'lolo')
+  .option('address', { value: 'XiaMen' })
+  .get()
+
+type ResultType = typeof result
+// 期望 ResultType 的类型是：
+// {
+//   age: number
+//   name: string
+//   address: {
+//     value: string
+//   }
+// }
+
+/**
+ * @description 28、实现一个 Repeat 工具类型，用于根据类型变量 C 的值，重复 T 类型并以元组的形式返回新的类型
+ */
+
+type Repeat<T, C extends number, R extends any[] = []> = R['length'] extends C
+  ? R
+  : Repeat<T, C, [...R, T]>
+
+type R01 = Repeat<0, 0> // []
+type R12 = Repeat<1, 1> // [1]
+type R22 = Repeat<number, 2> // [number, number]
+
+/**
+ * @description 29、实现一个 RepeatString 工具类型，用于根据类型变量 C 的值，重复 T 类型并以字符串的形式返回新的类型。
+ */
+type RepeatString<
+  T extends string,
+  C extends number,
+  S extends any[] = [], //  用于判断是否递归完毕
+  R extends string = '' //  用于累加记录已遍历过的字符串
+> = S['length'] extends C ? R : RepeatString<T, C, [...S, 1], `${R}${T}`>
+
+type S01 = RepeatString<'a', 0> // ''
+type S11 = RepeatString<'a', 2> // 'aa'
+type S21 = RepeatString<'ab', 3> // 'ababab'
+
+/**
+ * @description 30、实现一个 ToNumber 工具类型，用于实现把数值字符串类型转换为数值类型。
+ */
+type ToNumber<
+  T extends string,
+  R extends any[] = []
+> = `${R['length']}` extends T ? R['length'] : ToNumber<T, [...R, 1]>
+
+type T03 = ToNumber<'0'> // 0
+type T13 = ToNumber<'10'> // 10
+type T23 = ToNumber<'20'> // 20
+// 思路: ts里运算很匮乏，并没有直接的数字运算，
+// 这里巧妙的利用了数组长度来实现，通过递归构造数组，
+// 使得构造出来的数组长度和期望的匹配，
+// 主要要把数组长度通过字符串模板的方式转换成字符串。否则永远匹配不成功
+
+/**
+ * @description 31、实现一个 SmallerThan 工具类型，用于比较数值类型的大小。
+ */
+type SmallerThan<
+  N extends number,
+  M extends number,
+  A extends any[] = []
+> = A['length'] extends M ? false : A['length'] extends N ? true : false
+
+type S04 = SmallerThan<0, 1> // true
+type S14 = SmallerThan<2, 0> // false
+type S24 = SmallerThan<8, 10> // true
+// 思路: 依然是利用构造数组的长度来判断，体用递归逐步迭代，先和哪个数匹配上，哪个数就小，注意边界问题。
+// 这里要求的是第一个数小，如果相等，返回自然是false
+
+/**
+ * @description 32、实现一个 Add 工具类型，用于实现对数值类型对应的数值进行加法运算。
+ */
+type Add<
+  A extends number,
+  B extends number,
+  C extends any[] = [],
+  D extends any[] = []
+> = C['length'] extends A
+  ? D['length'] extends B
+    ? [...C, ...D]['length']
+    : Add<A, B, C, [...D, '']>
+  : Add<A, B, [...C, ''], D>
+
+type A0 = Add<5, 5> // 10
+type A1 = Add<8, 20> // 28
+type A2 = Add<10, 30> // 40
+//  思路：数组匹配，当长度等于数值时，停止；然后返回最后的数组长度之和
+
+/**
+ * @description 33、实现一个 Filter 工具类型，用于根据类型变量 F 的值进行类型过滤。
+ */
+type Filter<T extends any[], F, R extends any[] = []> = T extends [
+  infer A,
+  ...infer B
+]
+  ? A extends F
+    ? Filter<B, F, [A, ...R]>
+    : Filter<B, F, [...R]>
+  : R
+
+type F05 = Filter<[6, 'lolo', 7, 'semlinker', false], number> // [6, 7]
+type F15 = Filter<['kakuqo', 2, ['ts'], 'lolo'], string> // ["kakuqo", "lolo"]
+type F25 = Filter<[0, true, any, 'abao'], string> // [any, "abao"]
+
+/**
+ * @description 34、实现一个 Flat 工具类型，支持把数组类型拍平（扁平化）。
+ */
+type Flat<T extends any[]> = T extends [infer A, ...infer B]
+  ? A extends any[]
+    ? [...Flat<A>, ...Flat<B>]
+    : [A, ...Flat<B>]
+  : []
+
+type F06 = Flat<[]> // []
+type F16 = Flat<['a', 'b', 'c']> // ["a", "b", "c"]
+type F26 = Flat<['a', ['b', 'c'], ['d', ['e', ['f']]]]> // ["a", "b", "c", "d", "e", "f"]
+
+/**
+ * @description 35、实现 StartsWith 工具类型，判断字符串字面量类型 T 是否以给定的字符串字面量类型 U 开头，并根据判断结果返回布尔值。
+ */
+
+type StartsWith<T extends string, U extends string> = T extends `${U}${infer A}`
+  ? true
+  : false
+
+type S08 = StartsWith<'123', '12'> // true
+type S18 = StartsWith<'123', '13'> // false
+type S82 = StartsWith<'123', '1234'> // false
+
+/**
+ * @description 36、实现 IsAny 工具类型，用于判断类型 T 是否为 any 类型
+ */
+type IsAny<T> = 0 extends 1 & T ? true : false
+// 思路: 利用任何类型和any交叉都等于any来实现。
+
+type I022 = IsAny<never> // false
+type I122 = IsAny<unknown> // false
+type I221 = IsAny<any> // true
+
+/**
+ * @description 36、实现 AnyOf 工具类型，只要数组中任意元素的类型非 Falsy 类型、 {} 类型或 [] 类型，则返回 true，否则返回 false。如果数组为空的话，则返回 false
+ * falsy 值 (虚值) 是在 Boolean 上下文中认定为 false 的值
+ */
+
+type NotEmptyObject<T> = T extends {} ? ({} extends T ? false : true) : true
+type Flasy = 0 | '' | false | []
+type AnyOf<T extends any[]> = T extends [infer First, ...infer Rest]
+  ? First extends Flasy
+    ? AnyOf<Rest>
+    : NotEmptyObject<First>
+  : false
+type A01 = AnyOf<[]> // false
+type A11 = AnyOf<[0, '', false, [], {}]> // false
+type A21 = AnyOf<[1, '', false, [], {}]> // true
+
+/**
+ * @description 37、实现 Replace 工具类型，用于实现字符串类型的替换操作
+ */
+type Replace<
+  S extends string,
+  From extends string,
+  To extends string
+> = S extends `${infer A}${From}${infer B}` ? `${A}${To}${B}` : S
+
+type ReplaceAll<
+  S extends string,
+  From extends string,
+  To extends string
+> = S extends `${infer A}${From}${infer B}`
+  ? ReplaceAll<`${A}${To}${B}`, From, To>
+  : S
+
+type R012 = Replace<'', '', ''> // ''
+type R121 = Replace<'foobar', 'bar', 'foo'> // "foofoo"
+type R221 = Replace<'foobarbar', 'bar', 'foo'> // "foofoobar"
+
+/**
+ * @description 38、实现 IndexOf 工具类型，用于获取数组类型中指定项的索引值。若不存在的话，则返回 -1 字面量类型
+ */
+type IndexOf<A extends any[], Item, R extends any[] = []> = A extends [
+  infer A,
+  ...infer B
+]
+  ? [A] extends [Item] // 去掉联合类型的影响
+    ? R['length']
+    : IndexOf<B, Item, [A, ...R]>
+  : -1
+
+type Arr = [1, 2, 3, 4, 5]
+type I04 = IndexOf<Arr, 0> // -1
+type I14 = IndexOf<Arr, 1> // 0
+type I24 = IndexOf<Arr, 3> // 2
+
+// TODO:不会
+/**
+ * @description 39、实现一个 Permutation 工具类型，当输入一个联合类型时，返回一个包含该联合类型的全排列类型数组。
+ */
+type Om<T, I> = T extends I ? never : T
+type Test<T extends any[], F, G = F> = T extends any[]
+  ? F | 1 extends 1
+    ? T
+    : F extends any
+    ? Test<[...T, F], Om<G, F>>
+    : T
+  : T
+type Permutation<T> = Test<[], T>
+
+type P0 = Permutation<'a' | 'b'> // ['a', 'b'] | ['b' | 'a']
+
+type P1 = Permutation<'a' | 'b' | 'c'>
+
+/**
+ * @description 40、实现 Unpacked 工具类型，用于对类型执行 “拆箱” 操作。
+ */
+type Types = string | number | symbol
+type Unpacked<T> = T extends Types
+  ? T
+  : T extends (...arg: any) => infer R
+  ? R
+  : T extends (infer A)[]
+  ? A
+  : T extends Promise<infer P>
+  ? P
+  : never
+
+type T00 = Unpacked<string> // string
+type T01 = Unpacked<string[]> // string
+type T02 = Unpacked<() => string> // string
+type T032 = Unpacked<Promise<string>> // string
+type T04 = Unpacked<Unpacked<Promise<string>[]>> // string
+type T05 = Unpacked<any> // any
+type T06 = Unpacked<never> // never
