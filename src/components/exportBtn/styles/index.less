@@ -1,0 +1,78 @@
+.animationContainer {
+  pointer-events: none;
+  position: fixed;
+  background: rgba(red, green, blue, 0.3);
+  // background-color: red;
+  z-index: 9999;
+
+  .movingIcon {
+    width: 48px;
+    height: 48px;
+    background: url('~@/images/layout/downloadicon.png') no-repeat center center;
+    background-size: contain;
+    position: absolute;
+    left: calc(100% - 24px);
+    top: calc(100% - 48px);
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards
+  }
+  @keyframes exportButtonBeginFromRight {
+    0% {
+      left: calc(100% - 24px);
+      top: calc(100% - 48px);
+      opacity: 1;
+      transform: scale(1, 1);
+    }
+
+    75% {
+      top: -24px;
+      left: -24px;
+      opacity: 1;
+      transform: scale(1, 1);
+    }
+
+    100% {
+      top: -48px;
+      left: -24px;
+      opacity: 0;
+      transform:scale(0.4,0.4);
+    }
+  }
+  @keyframes exportButtonBeginFromLeft {
+    0% {
+      left: -24px;
+      top: calc(100% - 48px);
+      opacity: 1;
+      transform: scale(1, 1);
+    }
+
+    75% {
+      top: -24px;
+      left: calc(100% - 24px);
+      opacity: 1;
+      transform: scale(1, 1);
+    }
+
+    100% {
+      top: -48px;
+      left: calc(100% - 24px);
+      opacity: 0;
+      transform:scale(0.4,0.4);
+    }
+  }
+}
+
+// .exportButtonBeginFromRight.movingIcon {
+//     .movingIcon {
+//       animation-name: BeginFromRight;
+//     }
+//   }
+
+//   .exportButtonBeginFromLeft {
+//     .movingIcon {
+//       animation-name: BeginFromLeft;
+//     }
+//   }
+
+

@@ -21,7 +21,6 @@ function Study(props: InitProps): ReactNode {
   const [modelVisible, setModelVisible] = useState(false)
   
   const handleClick = useCallback((e: MouseEvent) => {
-    console.log(e)
     e.preventDefault()
   }, [])
 

@@ -14,7 +14,7 @@ interface error {
 }
 
 /**
- * 异常处理程序
+ * @description 异常处理程序
  */
 const errorHandler = (error: error) => {
   if (error.name === 'RequestError') {

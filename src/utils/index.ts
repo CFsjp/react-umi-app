@@ -13,10 +13,6 @@ export {
   isEmptyObj
 } from './type'
 
-export { cookies } from './cookie'
-
-export { debounce, thorttle } from './debounce-throttle'
-
 export {
   getPercentNum,
   getPercentStr,
@@ -25,10 +21,16 @@ export {
   thousandth
 } from './format'
 
-export { copyText, downloadImage, downloadURL, generateRandom } from './oper'
+export {
+  copyText,
+  downloadImage,
+  downloadURL,
+  generateRandom,
+  debounce,
+  thorttle,
+  cookies
+} from './help'
 
 export { Pubsub } from './pubsub'
-
-export { forEachValue } from './share'
 
 export { uniqueArray, uniqueArrayByKey } from './unique-Array'

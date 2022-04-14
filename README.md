@@ -66,7 +66,7 @@ Demo
 - 坚持使用小写驼峰来命名属性与方法。
 - 坚持将自定义的模块导入与第三方的模块导入中间空一行。
 - 坚持在非头部的注释上面增加一行空行。
-- 添加了jsdoc校验，每个函数必须写入描述中文，便于后续维护
+- 添加了jsdoc校验，每个函数必须写入描述中文，便于后续维护(可换成tsdoc)
 
 ##### CSS
 
@@ -109,7 +109,7 @@ Demo
 
 
 ## husky + lint-staged
-提交前用eslint来检查，保证代码格式的正确
+提交前用eslint来检查，保证代码格式的正确（可升级成tslint）
 主要需要husky + lint-staged + eslint + pretterrc来管理
 eslint + pretterrc 做文件格式美化，husky + lint-staged在代码提交前触发commit提交前的钩子去检验
 
