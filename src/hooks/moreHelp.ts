@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef } from "react";
+import { reactive, effect } from '@vue/reactivity'
+import { useRef, useEffect, useMemo, useState, useCallback } from 'react'
 interface CurInstance {
-  fn: Function;
+  fn: Function
   timer: null | NodeJS.Timeout
 }
 
@@ -29,4 +30,39 @@ export function useDebounce(fn: Function, delay: number, dep: any[]) {
       current.fn(...args)
     }, delay)
   }, dep)
+}
+
+type Types = string | number | symbol
+interface InitState {
+  [key: Types]: any
+}
+
+/**
+ * @description 把数据变成响应式的
+ * @param initState 初始化数据
+ * @returns reactiveState 响应式数据
+ * @example
+ * import useReactive from './useReactive'
+ * const state = useReactive({ number: 1, name: 'alien' })
+ */
+export default function useReactive(initState: InitState) {
+  const reactiveState = useRef(initState)
+  const [, forceUpdate] = useState(0)
+
+  const state = useMemo(() => reactive(reactiveState.current), [])
+
+  useEffect(() => {
+    let isdep = false
+
+    effect(() => {
+      for (const i in state) {
+        state[i]
+      } // 依赖收集
+
+      isdep && forceUpdate((num) => num + 1) // 强制更新
+      
+      if (!isdep) isdep = true
+    })
+  }, [state])
+  return state
 }

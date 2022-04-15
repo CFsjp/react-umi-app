@@ -51,8 +51,10 @@ module.exports = {
     "jsdoc/require-returns": 0,
     // 验证类型的有效性
     "jsdoc/valid-types": 1, // Recommended
-    "jsdoc/require-param-type": ["error"|"warn", {"contexts":["any"]}],
-    "jsdoc/check-values": 0
+    "jsdoc/require-param-type": 0,
+    "jsdoc/check-values": 0,
+    "jsdoc/require-returns-type": 0,
+    "jsdoc/check-examples": 0
   },
   parserOptions: {
     ecmaVersion: 7,

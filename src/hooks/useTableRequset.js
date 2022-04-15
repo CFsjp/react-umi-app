@@ -1,7 +1,11 @@
 import { useRef, useState, useMemo, useEffect } from 'react'
 import { debounce } from 'utils'
 
-/* table 数据更新 hooks */
+/**
+ * @description table 数据更新 hooks
+ * @param api 请求api
+ * @returns [tableData, onPageChange, onQueryChange]
+ */
  export default function useTableRequset(api) {
   /* 是否是第一次请求 */
   const fisrtRequest = useRef(true)
@@ -31,7 +35,7 @@ import { debounce } from 'utils'
         fisrtRequest.current = false
       } 
     }
-  }, [])
+  }, [api, pageOptions, query])
 
   const onPageChange = useMemo(() => (options) => setPageOptions({ ...options }), [])
 
@@ -41,21 +45,21 @@ import { debounce } from 'utils'
     if (fisrtRequest.current) { 
       getList({ ...query, ...pageOptions })
     }
-  }, [])
+  }, [getList, pageOptions, query])
 
   /* 改变分页，重新请求数据 */
   useEffect(() => {
     if (!fisrtRequest.current) { 
       getList({ ...query, ...pageOptions })
     }
-  }, [pageOptions])
+  }, [getList, pageOptions, query])
 
   /* 改变查询条件。重新请求数据 */
   useEffect(() => {
     if (!fisrtRequest.current) { 
       getList({ ...query, ...pageOptions, pageNum: 1 })
     }
-  }, [query])
+  }, [getList, pageOptions, query])
   /* 处理分页逻辑 */
 
   return [tableData, onPageChange, onQueryChange]
