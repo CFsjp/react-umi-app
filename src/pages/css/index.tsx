@@ -1,4 +1,4 @@
-import style from "./index.less"
+import style from './index.less'
 
 /**
  * @description 页面展示效果优化---交互设计优化
@@ -32,19 +32,33 @@ import style from "./index.less"
  * user-select: none;
  */
 function Css() {
-  return <div className={style.cssWrap}>
-  <nav>
-    <a href="/css/#1" className={style.a}>1</a>
-    <a href="/css/#2" className={style.a}>2</a>
-    <a href="/css/#3" className={style.a}>3</a>
-  </nav>
-  <div className={style['scrolling-box']}>
-    <section id="1" className={style.section}>First section</section>
-    <section id="2" className={style.section}>Second section</section>
-    <section id="3" className={style.section}>Third section</section>
-  </div>
-</div>
-
+  return (
+    <div className={style.cssWrap}>
+      <nav>
+        <a href="/css/#1" className={style.a}>
+          1
+        </a>
+        <a href="/css/#2" className={style.a}>
+          2
+        </a>
+        <a href="/css/#3" className={style.a}>
+          3
+        </a>
+        <i className="iconfont iconguanbi1x const-icon-close" />
+      </nav>
+      <div className={style['scrolling-box']}>
+        <section id="1" className={style.section}>
+          First section
+        </section>
+        <section id="2" className={style.section}>
+          Second section
+        </section>
+        <section id="3" className={style.section}>
+          Third section
+        </section>
+      </div>
+    </div>
+  )
 }
 
 export default Css

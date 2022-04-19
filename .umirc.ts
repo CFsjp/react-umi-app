@@ -42,6 +42,13 @@ export default defineConfig({
       }
     }
   },
+  headScripts: [ // js 的 cdn
+    // '//rescdn.qqmail.com/node/ww/wwopenmng/js/sso/wwLogin-1.0.0.js',
+  ],
+  styles: [
+    // iconfont 的 cdn
+    '//at.alicdn.com/t/font_2326520_7fzficvi23x.css',
+  ],
   analyze: {
     analyzerPort: 8888
   },
@@ -57,6 +64,15 @@ export default defineConfig({
       path.resolve(__dirname, 'src'),
       'node_modules'
     ])
+
+    if (!isDev) {
+      // PWA 当服务器挂了之后，你依然能够访问这个网页
+      config.plugin('WorkboxPlugin').use(WorkboxPlugin)
+      new WorkboxPlugin.GenerateSW({
+        clientsClaim: true,
+        skipWaiting: true
+      })
+    }
   },
   alias: {
     pages: 'src/pages',
@@ -75,4 +91,5 @@ export default defineConfig({
     immer: true,
     hmr: false,
   },
+  plugins: []
 })

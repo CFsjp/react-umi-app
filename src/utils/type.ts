@@ -13,5 +13,4 @@ export const isString = isType('String')
 export const isBoolean = isType('Boolean')
 export const isNull = isType('Null')
 export const isUndefined = (param: any) => typeof param === 'undefined'
-export const isEmptyObj = (param: any) =>
-  isObject(param) && !Object.keys(param).length
+export const isEmptyObj = (param: any) => isObject(param) && !Object.keys(param).length

@@ -1,4 +1,4 @@
-export const noop = (): void => {}
+export type noop = (...args: any[]) => any
 
 export {
   isType,
