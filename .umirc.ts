@@ -8,6 +8,7 @@ import dayjs from 'dayjs'
 const path = require('path')
 const isDev = process.env.NODE_ENV === 'development'
 
+
 const { GitRevisionPlugin } = require('git-revision-webpack-plugin')
 const gitRevisionPlugin = new GitRevisionPlugin()
 
