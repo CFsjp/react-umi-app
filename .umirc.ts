@@ -7,6 +7,7 @@ import zhCN from 'antd/lib/locale-provider/zh_CN'
 const path = require('path')
 const isDev = process.env.NODE_ENV === 'development'
 
+
 export default defineConfig({
   title: 'RPA',
   hash: true, //生成hash文件名
