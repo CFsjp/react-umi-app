@@ -1,31 +1,48 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: Node.js CI
+name: 打包应用并上传-CI/CD流水线测试
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches:
+      - dev
 
 jobs:
   build:
-
+    # runs-on 指定job任务运行所需要的虚拟机环境(必填字段)
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+      # 获取源码
+      - name: 迁出代码
+        # 使用action库  actions/checkout获取源码
+        uses: actions/checkout@dev
+      # 安装Node10
+      
+      - name: 安装node.js
+        # 使用action库  actions/setup-node安装node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.0.0
+
+      # 安装依赖
+      - name: 安装依赖
+        run: npm install
+
+      # 打包
+      - name: 打包
+        run: npm run build
+
+      # # 上传阿里云
+      # - name: 发布到阿里云
+      #   uses: easingthemes/ssh-deploy@v2.1.1
+      #   env:
+      #     # 私钥
+      #     SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      #     # scp参数
+      #     ARGS: "-avzr --delete"
+      #     # 源目录
+      #     SOURCE: "dist"
+      #     # 服务器ip：换成你的服务器IP
+      #     REMOTE_HOST: "47.98.252.43"
+      #     # 用户
+      #     REMOTE_USER: "root"
+      #     # 目标地址
+      #     TARGET: "/root/vue-in-action"
