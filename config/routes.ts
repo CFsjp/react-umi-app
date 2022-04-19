@@ -5,9 +5,11 @@
  */
 
 const route = [
-  { path: '/', redirect: 'study' },
+  { path: '/', redirect: 'count' },
   { path: '/react-hook-study', component: 'react-hook-study' },
   { path: 'study', component: 'study' },
+  { path: 'count', component: 'count' },
+  { path: 'css', component: 'css' },
 ]
 
 export default route
