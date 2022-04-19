@@ -65,15 +65,6 @@ export default defineConfig({
       path.resolve(__dirname, 'src'),
       'node_modules'
     ])
-
-    if (!isDev) {
-      // PWA 当服务器挂了之后，你依然能够访问这个网页
-      config.plugin('WorkboxPlugin').use(WorkboxPlugin)
-      new WorkboxPlugin.GenerateSW({
-        clientsClaim: true,
-        skipWaiting: true
-      })
-    }
   },
   alias: {
     pages: 'src/pages',
