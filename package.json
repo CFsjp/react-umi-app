@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "cross-env SERVER_ENV=dev umi dev",
-    "build": "cross-env SERVER_ENV=prod umi build && node-git-info -d dist",
+    "build": "cross-env SERVER_ENV=prod umi build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "test": "umi-test",
