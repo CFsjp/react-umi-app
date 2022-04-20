@@ -1,7 +1,8 @@
 import { reactive, effect } from '@vue/reactivity'
 import { useRef, useEffect, useMemo, useState, useCallback } from 'react'
+import { noop } from 'utils'
 interface CurInstance {
-  fn: Function
+  fn: noop
   timer: null | NodeJS.Timeout
 }
 
@@ -12,7 +13,7 @@ interface CurInstance {
  * @param dep 依赖项
  * @returns 根据 dep 依赖项 返回一个防抖函数，根据 delay 时间去防止 fn 多次触发
  */
-export function useDebounce(fn: Function, delay: number, dep: any[]) {
+export function useDebounce(fn: noop, delay: number, dep: any[]) {
   // 定义ref来获取之前的防抖实例
   const { current } = useRef<CurInstance>({ fn, timer: null })
 
